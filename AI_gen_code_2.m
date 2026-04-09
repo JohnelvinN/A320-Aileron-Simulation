@@ -27,7 +27,7 @@ beta_rad = Bo + theta_rad;
 sin_gamma = D * sin(beta_rad) ./ P;
 sin_gamma = max(0, min(1, sin_gamma));
 
-%% XFOIL DATA (from Bertuğ)
+%% XFOIL DATA 
 delta_data = [15; 10; 5; 0; -5; -10; -15];
 CL_data = [1.1221; 0.7740; 0.3204; 0; -0.3362; -1.0186; -1.5390];
 Cm_ac_data = [-0.1664; -0.1224; -0.0531; 0; 0.0565; 0.1719; 0.2491];
