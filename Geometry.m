@@ -21,14 +21,14 @@ theta_deg=linspace(theta_min_deg,theta_max_deg,101);
 theta_rad=theta_deg*pi/180;
 
 P=zeros(size(theta_rad));  % Array that will hold the values of P (new Lengths of the actuator) as they are being calculated in the for loop
-
+B=zeros(size(theta_rad));
 
 for i=1:length(theta_rad)
     B =Bo+theta_rad(i);               % New Angle calculated
     P(i)=sqrt(r^2+D^2-2*r*D*cos(B));     %New Actuator length
 end
 
-save("data.mat", "Bo_deg", "theta_deg", "Po", "P", "r", "D");
+save("data.mat", "Bo_deg", "theta_deg", "Po", "P", "r", "D", "B");
 x=P - min(P);  % The Extension
 x_mm=x *1000;
 
