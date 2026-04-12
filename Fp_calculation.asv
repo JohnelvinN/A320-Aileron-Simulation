@@ -28,10 +28,7 @@ Cl_d_o=[1.1221; 0.7740; 0.3204; 0; -0.3362; -1.0186; -1.5390];
 Cm_d_o=[-0.1664; -0.1224; -0.0531; 0; 0.0565; 0.1719; 0.2491];
 
 %To flip the data
-delta_data=flipud(delta_data_o);
-Cl_d=flipud(Cl_d_o);
-Cm_d=flipud(Cm_d_o);
-
+delta_data=flipud()
 % To extrapolate Cl and Cm values since they dont match the values from the
 % initail geometry with 101 values in array
 Cl=interp1(delta_data,Cl_d,theta_deg,"pchip","extrap");
