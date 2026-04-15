@@ -14,8 +14,8 @@ Po=sqrt(r^2+D^2-2*r*D*cos(Bo));
 fprintf('Neutral actuator length Lo =%.1f mm\n',Po*1000);
 
 %% Now just to declare the ranges of the aileron deflection
-theta_min_deg=-25;
-theta_max_deg=25;
+theta_min_deg=-15;
+theta_max_deg=15;
 theta_deg=linspace(theta_min_deg,theta_max_deg,101);
 
 theta_rad=theta_deg*pi/180;
