@@ -7,7 +7,7 @@ close all;
 %Initial data
 
 c=0.4;   % Chord length
-v=233; % To be changed based on the values of speed used in Xfoil
+v=250; % To be changed based on the values of speed used in Xfoil
 S=1.2;
 rho=0.38;
 b=2.4;
@@ -24,8 +24,8 @@ R=r;
 %addition of the Aerodynamic coefficients, (to be changed based on the
 %format)
 delta_data_o=[15; 10; 5; 0; -5; -10; -15];
-Cl_d_o=[1.1221; 0.7740; 0.3204; 0; -0.3362; -1.0186; -1.5390];
-Cm_d_o=[-0.1664; -0.1224; -0.0531; 0; 0.0565; 0.1719; 0.2491];
+Cl_d_o=[1.84540; 1.49730; 1.04370;0.72330;0.38710;-0.29530;-0.81570];
+Cm_d_o=[-0.20800;-0.16400;-0.09470;-0.04160;0.01490;0.13030;0.20750];
 
 %To flip the data
 delta_data=flipud(delta_data_o);
@@ -45,7 +45,7 @@ bottom=zeros(size(Cm));
 
 for i=1:length(theta_deg)
 
-top(i)= rho*v^2*S*((b*Cm(i))+(0.25*c*Cl(i)));
+top(i)= rho*v^2*S*((c*Cm(i))+(0.25*c*Cl(i)));
 bottom(i)= 2*r*sqrt(1-((R^2+P(i)^2-D^2)/(2*R*P(i)))^2);
 
 end
