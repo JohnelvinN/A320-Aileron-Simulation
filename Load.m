@@ -27,7 +27,7 @@ function cm = C_M(alpha, k, Coeff)
 end
 
 %% Load
-F_p = linspace(0, 1, length(theta_deg));
+F_p = zeros(length(theta_deg), length(Vel));
 
 function fl=F_L(v, rho, S, cl)
     fl = rho * v^2 *0.5 * S * cl;
@@ -40,9 +40,9 @@ end
 for i = 1:length(theta_deg)
     for k = 1:length(Vel)
         F_p_denom = r*sqrt(1 - ((r^2 - D^2 + P(i)^2)/(2*r*P(i)))^2);
-        F_p(i) = (Ma(Vel(k), rho, S, C_M(theta_deg(i), k, Coefficients_CM), c) + 0.25*c*F_L(Vel(k), rho, S, C_L(theta_deg(i), k, Coefficients_CL))) / F_p_denom;
+        F_p(i, k) = (Ma(Vel(k), rho, S, C_M(theta_deg(i), k, Coefficients_CM), c) + 0.25*c*F_L(Vel(k), rho, S, C_L(theta_deg(i), k, Coefficients_CL))) / F_p_denom;
     end
 end
 
-plot(theta_deg, F_p,'b-','LineWidth',2);
-
+mesh(Vel, theta_deg, F_p);
+%plot(theta_deg, F_p(:, 1),'b-','LineWidth',2);
