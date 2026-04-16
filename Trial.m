@@ -28,6 +28,7 @@ R=r;
 
 % First we preallocate variable size for the values that come out of
 % interpolation
+
 Cl=zeros(length(theta_deg),length(V));
 Cm=zeros(length(theta_deg),length(V));
 
@@ -66,31 +67,9 @@ end
 end
 
 
-
+mesh(Fp_all);
 %To plot the graphs
 
-colors = jet(length(V));
-for k = 1:length(V)
-    plot(theta_deg, Fp_all(:, k), '-', 'Color', colors(k, :), 'LineWidth', 1.5);
-end
-
-xlabel('Aileron Deflection \theta [deg]');
-ylabel('Actuator Force F_p [N]');
-title('Actuator Force vs Deflection at Different Airspeeds');
-legend(cellstr(num2str(V', 'V = %.0f m/s')), 'Location', 'best');
-grid on;
-hold off;
-
-%% 3D MESH PLOT
-figure('Position', [100, 100, 1000, 700]);
-mesh(V, theta_deg, Fp_all);
-xlabel('Airspeed V [m/s]');
-ylabel('Aileron Deflection \theta [deg]');
-zlabel('Actuator Force F_p [N]');
-title('3D View: Actuator Force vs Speed and Deflection');
-colorbar;
-grid on;
-view(45, 30);
 
 
 
