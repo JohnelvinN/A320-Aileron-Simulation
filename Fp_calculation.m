@@ -17,6 +17,8 @@ b=2.4;
 
 load("data.mat");
 
+load("Aero_data.mat");
+
 R=r;
 
 
@@ -60,6 +62,7 @@ ylabel('Fp ');
 title('Actuator force vs deflection');
 grid on;
 
+mesh(v,theta_deg,Fp);
 
 
 
