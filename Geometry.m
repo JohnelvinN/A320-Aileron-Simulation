@@ -28,9 +28,9 @@ for i=1:length(theta_rad)
     P(i)=sqrt(r^2+D^2-2*r*D*cos(B));     %New Actuator length
 end
 
-save("data.mat", "Bo_deg", "theta_deg", "Po", "P", "r", "D");
 x=P - min(P);  % The Extension
 x_mm=x *1000;
+save("data.mat", "Bo_deg", "theta_deg", "Po", "P", "r", "D", "x");
 
 %% Now the plot commences
 figure('Position',[100 100 800 500]);

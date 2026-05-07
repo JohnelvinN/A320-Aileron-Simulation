@@ -10,7 +10,7 @@ c = 0.4;
 rho = 0.38;
 S = 1.2;
 b = S/c;
-Vel = flip(175:15:250);
+Vel = flip(115:15:250);
 
 function cl = C_L(alpha, k, Coeff)
     def = flip(-15:5:15);
