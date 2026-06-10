@@ -3,8 +3,8 @@ clc;
 close all;
 
 %% The Main Variables Declared
-r=0.10;  % [m] Distance from hinge to actuator connection 
-D=0.059;   % [m] Distance from hinge to the actuator fixed point
+r=0.1;  % [m] Distance from hinge to actuator connection 
+D=0.55;   % [m] Distance from hinge to the actuator fixed point
 Bo_deg=70;  % [degrees] Initial Angle between D and r
 
 Bo=Bo_deg*pi/180;
@@ -14,8 +14,8 @@ Po=sqrt(r^2+D^2-2*r*D*cos(Bo));
 fprintf('Neutral actuator length Lo =%.1f mm\n',Po*1000);
 
 %% Now just to declare the ranges of the aileron deflection
-theta_min_deg=-25;
-theta_max_deg=25;
+theta_min_deg=-15;
+theta_max_deg=15;
 theta_deg=linspace(theta_min_deg,theta_max_deg,101);
 
 theta_rad=theta_deg*pi/180;
@@ -28,9 +28,9 @@ for i=1:length(theta_rad)
     P(i)=sqrt(r^2+D^2-2*r*D*cos(B));     %New Actuator length
 end
 
-save("data.mat", "Bo_deg", "theta_deg", "Po", "P", "r", "D");
-x=P - min(P);  % The Extension
+x=P - Po;  % The Extension
 x_mm=x *1000;
+save("data.mat", "Bo_deg", "theta_deg", "Po", "P", "r", "D", "x");
 
 %% Now the plot commences
 figure('Position',[100 100 800 500]);
