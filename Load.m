@@ -1,48 +1,63 @@
 clear;
 clc;
 close all;
+
 %% Data
 load("data.mat");
-load("Coefficients_CL.txt")
-load("Coefficients_CM.txt")
+load("Coefficients_CL.txt");
+load("Coefficients_CM.txt");
 
-c = 0.4;
+%% Parameters
+c   = 0.4;
 rho = 0.38;
-S = 1.2;
-b = S/c;
-Vel = flip(115:15:250);
+S   = 1.2;
 
-function cl = C_L(alpha, k, Coeff)
-    def = flip(-15:5:15);
-    cl_data = Coeff(:,k);    
-    line = polyfit(def, cl_data, 1);
-    cl = alpha*line(1) + line(2);
-end
+%% Velocity
+vel_min = 115;
+vel_max = 250;
 
-function cm = C_M(alpha, k, Coeff)
-    def = flip(-15:5:15);
-    cm_data = Coeff(:,k);    
-    line = polyfit(def, cm_data, 1);
-    cm = alpha*line(1) + line(2);
-end
+Vel = linspace(vel_min, vel_max, 101);
 
-%% Load
+%% Original database
+def_orig = -15:5:15;    %rows
+vel_orig = 115:15:250;  %columns
+
+%% Interpolation
+FCL = griddedInterpolant({def_orig, vel_orig}, Coefficients_CL, 'linear');
+
+FCM = griddedInterpolant({def_orig, vel_orig}, Coefficients_CM, 'linear');
+
+%% Output matrix
 F_p = zeros(length(theta_deg), length(Vel));
 
-function fl=F_L(v, rho, S, cl)
-    fl = rho * v^2 *0.5 * S * cl;
-end
-
-function ma=Ma(v, rho, S, ch, ca)
-    ma = rho * v^2 *0.5 * S * ch * ca;
-end
-
+%% Main calculation
 for i = 1:length(theta_deg)
+    denom = r * sqrt(1 - ((r^2 - D^2 + P(i)^2)/(2*r*P(i)))^2);
     for k = 1:length(Vel)
-        F_p_denom = r*sqrt(1 - ((r^2 - D^2 + P(i)^2)/(2*r*P(i)))^2);
-        F_p(i, k) = (Ma(Vel(k), rho, S, C_M(theta_deg(i), k, Coefficients_CM), c) + 0.25*c*F_L(Vel(k), rho, S, C_L(theta_deg(i), k, Coefficients_CL))) / F_p_denom;
+        v = Vel(k);
+        % Interpolated coefficients
+        cl = FCL(theta_deg(i), v);
+        cm = FCM(theta_deg(i), v);
+        % Lift force
+        Lift = 0.5 * rho * v^2 * S * cl;
+        % Aerodynamic moment
+        Moment = 0.5 * rho * v^2 * S * c * cm;
+        % Pushrod force
+        F_p(i,k) = (Moment + 0.25*c*Lift) / denom;
     end
 end
 
-mesh(Vel, theta_deg, F_p);
-%plot(theta_deg, F_p(:, 1),'b-','LineWidth',2);
+%% Plot
+[Vmesh, THmesh] = meshgrid(Vel, theta_deg);
+
+figure;
+surf(Vmesh, THmesh, F_p);
+
+xlabel('Velocity');
+ylabel('Deflection Angle');
+zlabel('Pushrod Force');
+
+title('Pushrod Force Surface');
+shading interp;
+colorbar;
+grid on;
